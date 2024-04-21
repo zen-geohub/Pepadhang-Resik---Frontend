@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+
+  <link rel="stylesheet" href="/index.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body class="flex overflow-x-hidden relative">
+  <div id="modalPermohonan" class="w-screen h-screen z-20 justify-center items-center absolute bg-[#00000080] hidden">
+    <div class="bg-white w-8/12 h-5/6 px-3 rounded-md overflow-y-auto relative">
+      <header class="sticky top-0 w-full font-bold text-lg text-center p-2 z-10 bg-white">Formulir Permohonan Reklame
+      <button id="closeModalPermohonan" class="material-icons absolute right-0 rounded hover:bg-slate-300">close</button>
+      </header>
+      <div class="flex w-full h-fit gap-2">
+        <form class="flex flex-col w-2/5 gap-1">
+          <div>
+            <label for="name">Nama Pemohon (Orang/Badan Usaha) *</label>
+            <input type="text" class="border-[1px] border-[#7e7e7e] rounded p-1 w-full" id="name" placeholder="Mohon diisi"
+              required>
+          </div>
+
+          <div>
+            <label for="address">Alamat Pemohon (KTP/Akta Badan Usaha) *</label>
+            <textarea class="border-[1px] border-[#7e7e7e] rounded p-1 w-full" id="address" cols="30" rows="3"
+              placeholder="Mohon diisi" required></textarea>
+          </div>
+
+          <div>
+            <label for="companyName">Nama Perusahaan</label>
+            <input type="text" class="border-[1px] border-[#7e7e7e] rounded p-1 w-full" id="companyName">
+          </div>
+
+          <div>
+            <label for="telephoneNum">Nomor Telepon/WA yang Masih Aktif *</label>
+            <input type="tel" class="border-[1px] border-[#7e7e7e] rounded p-1 w-full" id="telephoneNum">
+          </div>
+
+          <div>
+            <label for="NIB">Nomor Induk Berusaha (NIB)</label>
+            <input type="text" class="border-[1px] border-[#7e7e7e] rounded p-1 w-full" id="NIB"
+              placeholder="Bagi pemohon yang mengajukan KKPR untuk usaha">
+          </div>
+
+          <div>
+            <label for="script">Naskah</label>
+            <select class="border-[1px] border-[#7e7e7e] rounded p-1 w-full" id="script">
+              <option value="" selected hidden></option>
+              <option value="rokok">Produk Rokok</option>
+              <option value="alatKontrasepsi">Produk Alat Kontrasepsi</option>
+              <option value="lainnya">Produk Lainnya</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="otherProductScript">Naskah Produk Lainnya</label>
+            <input type="text" class="border-[1px] border-[#7e7e7e] rounded p-1 w-full" id="otherProductScript" placeholder="">
+          </div>
+          
+          <div>
+            <label for="size">Ukuran</label>
+            <input type="text" class="border-[1px] border-[#7e7e7e] rounded p-1 w-full" id="size" placeholder="">
+          </div>
+          
+          <div>
+            <label for="face">Sisi Hadap</label>
+            <select class="border-[1px] border-[#7e7e7e] rounded p-1 w-full" id="face">
+              <option value="" selected hidden></option>
+              <option value="">1 Sisi</option>
+              <option value="">2 Sisi</option>
+              <option value="">3 Sisi</option>
+              <option value="">4 Sisi</option>
+            </select>
+          </div>
+          
+          <div>
+            <label for="advType">Jenis Reklame</label>
+            <select class="border-[1px] border-[#7e7e7e] rounded p-1 w-full" id="advType">
+              <option value="" selected hidden></option>
+              <option value="">Reklame Papan/Billboard</option>
+              <option value="">Reklame Videotron</option>
+              <option value="">Reklame Lukisan Dinding (Wall Painting)</option>
+            </select>
+          </div>
+
+        </form>
+        <div action="" class="flex flex-col w-3/5 ">
+          <main id="mapPermohonan" class="w-full h-[233px] mb-1 rounded z-0 relative">
+            <label for="addMarker" style="display: none;" class="cursor-pointer markerLabel material-icons absolute z-10 top-28 left-[10px] p-[2px] shadow-sm hover:bg-[#e7e7e7] rounded-md bg-white">
+              <span class="material-icons markerLogo">location_on</span>
+            </label>
+            <input type="checkbox" hidden id="addMarker">
+          </main>
+          <div class="flex w-full flex-wrap gap-1">
+            <div class="w-1/3 grow gap-1">
+              <div for="kecamatan">Kecamatan</div>
+              <p id="kecamatan" class="border-[1px] border-[#7e7e7e] rounded p-1 min-h-[33.33px]"></p>
+            </div>
+            <div class="w-1/3 grow gap-1">
+              <div for="kelurahan">Kelurahan</div>
+              <p id="kelurahan" class="border-[1px] border-[#7e7e7e] rounded p-1 min-h-[33.33px]"></p>
+            </div>
+            <div class="w-1/3 grow gap-1">
+              <div for="latitude">Koordinat Lintang</div>
+              <p id="latitude" class="border-[1px] border-[#7e7e7e] rounded p-1 min-h-[33.33px]"></p>
+            </div>
+            <div class="w-1/3 grow gap-1">
+              <div for="longitude">Koordinat Bujur</div>
+              <p id="longitude" class="border-[1px] border-[#7e7e7e] rounded p-1 min-h-[33.33px]"></p>
+            </div>
+          </div>
+          <div class="w-full flex flex-col mt-1">
+            <label for="locationAddress">Lokasi</label>
+            <textarea id="locationAddress" class="border-[1px] border-[#7e7e7e] rounded p-1" rows="3"></textarea>
+          </div>
+
+          <div class="w-full flex flex-col mt-1">
+            <label for="placementPlan">Rencana Penempatan</label>
+            <select id="placementPlan" class="border-[1px] border-[#7e7e7e] rounded p-1 w-full">
+              <option value="" selected hidden></option>
+              <option value="">Persil Orang atau Badan</option>
+              <option value="">Persil Pemerintah, Pemerintah Daerah, dan/atau Fasilitas Umum</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <footer class="sticky bottom-0 bg-white w-full h-2 z-10 "></footer>
+    </div>
+  </div>
+
+  <aside class="w-36 h-screen p-2 bg-[#1E2E4A] z-10">
+    <a href="#">
+      <img src="./src/asset/images/Smart City building outline logo_20240406_121718_0001.jpg"
+        style="width: fit-content;" alt="">
+    </a>
+    <div class="w-full h-fit flex flex-col items-start gap-1 mt-1 text-white">
+      <a href="#" class="flex items-center gap-2 p-2 hover:bg-[#ffffff20] rounded w-full">
+        <div class="material-icons" style="font-size: x-large;">
+          home
+        </div>
+        <p class="">Beranda</p>
+      </a>
+
+      <button id="filterButton" class="cursor-pointer flex items-center gap-2 p-2 hover:bg-[#ffffff20] rounded w-full">
+        <div class="material-icons" style="font-size: x-large;">
+          tune
+        </div>
+        <p class="">Filter</p>
+      </button>
+
+      <!-- <button class="cursor-pointer flex items-center gap-2 p-2 hover:bg-[#ffffff20] rounded w-full">
+        <div class="material-icons" style="font-size: x-large;">
+          layers
+        </div>
+        <p class="">Layer</p>
+      </button> -->
+
+      <button id="permohonanButton" class="cursor-pointer flex items-center gap-2 p-2 hover:bg-[#ffffff20] rounded w-full">
+        <div class="material-icons" style="font-size: x-large;">
+          post_add
+        </div>
+        <p class="text-start text-sm">Permohonan<br>Reklame</p>
+      </button>
+    </div>
+
+  </aside>
+  <main class="w-full h-screen relative">
+    <div id="map" class="w-full h-full"></div>
+    <aside id="filterContainer"
+      class="bg-white rounded-md absolute top-0 left-0 flex flex-col gap-2 w-fit h-fit max-h-full m-2 p-2 transition-all transform -translate-x-[400px]">
+      <div>
+        <label for="filterUkuran "><strong>Ukuran</strong></label><br>
+        <select id="filterUkuran " class="rounded p-2 shadow cursor-pointer w-full">
+          <option value="" selected hidden></option>
+          <option value="Sedang">Sedang</option>
+          <option value="Besar">Besar</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="filterJenisReklame"><strong>Jenis Reklame</strong></label><br>
+        <select id="filterJenisReklame" class="rounded p-2 shadow cursor-pointer">
+          <option value="" selected hidden></option>
+          <option value="Billboard">Billboard</option>
+          <option value="Huruf Timbul">Huruf Timbul</option>
+          <option value="Reklame Huruf">Reklame Huruf</option>
+          <option value="Reklame Kain">Reklame Kain</option>
+          <option value="Videotron">Videotron</option>
+        </select>
+      </div>
+
+      <div>
+        <label for="filterNaskah"><strong>Naskah</strong></label><br>
+        <select id="filterNaskah" class="rounded p-2 shadow cursor-pointer w-full">
+          <option value="" selected hidden></option>
+          <option value="Kosong">Kosong</option>
+          <option value="Non Usaha">Non Usaha</option>
+          <option value="Usaha">Usaha</option>
+          <option value="Rokok">Rokok</option>
+        </select>
+      </div>
+
+      <div class="w-full flex gap-2">
+        <button id="submitFilter"
+          class="p-2 w-[60%] bg-[#1E2E4A] font-bold hover:bg-[#ffffff20] hover:text-[#1E2E4A] text-white shadow rounded-md">Submit</button>
+        <button id="clearFilter"
+          class="p-2 w-[40%] bg-[#1e2e4a20] font-bold hover:bg-[#ffffff20]  shadow rounded-md">Reset</button>
+      </div>
+    </aside>
+    <aside id="rightbar"
+      class="w-[350px] h-screen flex items-center absolute top-0 right-0 z-10 rounded-s-lg transition-all transform">
+      <button id="collapseRightbar" class="flex items-center justify-center h-[60px] w-[30px] rounded-s-md bg-white">
+        <div class="material-icons transition-all transform">navigate_next</div>
+      </button>
+      <div class="bg-white w-[320px] h-full p-2 rounded-s-md flex flex-col">
+        <div id="infoInstansi" class=" w-full h-full flex-col items-center justify-center gap-2 flex">
+          <img src="./src/asset/images/Logo_Kota_Yogyakarta.7e10e58cc5c567f49755.png" class="h-[100px]" alt="">
+
+          <h2 class="font-bold text-xl">Pepadhang Resik Jogja</h2>
+
+          <div class="w-full h-[2px] bg-black"></div>
+
+          <h4 class="font-semibold text-center text-sm">Dinas Pertanahan dan Tata Ruang<br>Kota Yogyakarta</h4>
+
+          <article class="text-center text-sm">
+            <p>Jln. Kenari No.56, Muja Muju, Umbulharjo, Kota Yogyakarta,</p>
+            <p>Daerah Istimewa Yogyakarta 55165</p>
+            <p>Telp. 0274515865, 0274515866</p>
+            <p>No. WA Layanan Online : 0811-2735-100</p>
+            <p>Email : pertanahantataruang@jogjakota.go.id</p>
+          </article>
+        </div>
+
+        <div id="infoContainer" class="w-full h-full gap-2 overflow-y-auto flex-col items-center hidden">
+          <p class="font-bold mb-1">Informasi Reklame</p>
+          <div id="dataContainer" class="w-full h-full flex flex-col items-center gap-2">
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Kode</header>
+              <article id="kode"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Ukuran</header>
+              <article id="ukuran"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Jenis Reklame</header>
+              <article id="jenis_rklm"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Area Amatan</header>
+              <article id="area_amtn"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Naskah</header>
+              <article id="naskah"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Konstruksi</header>
+              <article id="konstruksi"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Muka</header>
+              <article id="muka"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Fungsi Jalan</header>
+              <article id="fungsi_jln"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Tinggi</header>
+              <article id="tnggi_baru"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Ornamen</header>
+              <article id="ornamen"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Ornamen Zona Khusus/Ketat</header>
+              <article id="orn_khs_kt"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Pelanggaran Rokok</header>
+              <article id="pl_rokok"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Pelanggaran Tinggi</header>
+              <article id="pl_tinggi"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Pelanggaran Fasad</header>
+              <article id="pl_fasa"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Pelanggaran Fasad Mks(?)</header>
+              <article id="pl_fsd_mks"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Pelanggaran Zona Khusus</header>
+              <article id="pl_z_khsus"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Pelanggaran Zona Ketat</header>
+              <article id="pl_z_ketat"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">UPD Pelanggaran Simpang(?)</header>
+              <article id="upd_pl_spg"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">UPD Area Clear(?)</header>
+              <article id="upd_area_c"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">UPD Jarak(?)</header>
+              <article id="upd_jarak"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Justifikasi</header>
+              <article id="justifikas"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Rekomendasi</header>
+              <article id="rekomendas"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Potensi Tindakan</header>
+              <article id="potensi_ti"></article>
+            </div>
+            <div class="w-full h-fit p-2 rounded-lg border-[1px] border-black relative">
+              <header class="font-bold capitalize">Potensi Bila Tidak Dilakukan Penyesuaian</header>
+              <article id="potensi be"></article>
+            </div>
+          </div>
+          <!-- <div id="dataContainer" class="w-full h-full flex flex-col items-center gap-2"></div> -->
+        </div>
+      </div>
+
+    </aside>
+  </main>
+
+
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>
