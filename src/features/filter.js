@@ -7,5 +7,5 @@ export let filterCriteria = [];
 export function addFilter(property, value) {
   if (value !== '') {
     filterCriteria.push(['==', ['get', property], value]);
-  }
+  } 
 }

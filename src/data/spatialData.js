@@ -1,7 +1,7 @@
 export const reklamePointSource = {
   type: 'vector',
   scheme: 'tms',
-  tiles: [`http://localhost:8080/geoserver/gwc/service/tms/1.0.0/Reklame:2023_reklame_gdb@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`]
+  tiles: [`http://103.183.74.89:8080/geoserver/gwc/service/tms/1.0.0/backend:2023_reklame_gdb@EPSG%3A900913@pbf/{z}/{x}/{y}.pbf`]
 }
 
 export const reklamePointLayer = {
